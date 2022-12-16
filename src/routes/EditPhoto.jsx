@@ -12,42 +12,42 @@ const EditPhoto = () => {
 
   const editPhoto = (e) => {
     e.preventDefault();
-    fetch("https://gallery-app-server.vercel.app/photos"+id,
-    {method: "PATCH"})
-    .then((response) => response.json())
-    .then((json) => {
-      setPhotos(photos.filter((photo) => photo.id != id))
-    })
+    // fetch("https://gallery-app-server.vercel.app/photos"+id,
+    // {method: "PATCH"})
+    // .then((response) => response.json())
+    // .then((json) => {
+    //   setPhotos(photos.filter((photo) => photo.id != id))
+    // })
   };
 
   useEffect(() => {
     setLoading(true);
-    async function fetchData(){
-      try {
-        const data = await (
-          await fetch (`https://gallery-app-server.vercel.app/photos?_sort=id&_order=${sort}&q=${search}`)
-        ).json();
-        setPhotos(data);
-      } catch (error) {
-        setError(true);
-      }
-    } fetchData();
-      setLoading(false);
+    // async function fetchData(){
+    //   try {
+    //     const data = await (
+    //       await fetch (`https://gallery-app-server.vercel.app/photos?_sort=id&_order=${sort}&q=${search}`)
+    //     ).json();
+    //     setPhotos(data);
+    //   } catch (error) {
+    //     setError(true);
+    //   }
+    // } fetchData();
+    //   setLoading(false);
   }, [sort, submited]);
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://gallery-app-server.vercel.app/photos')
-    .then((res) => res.json())
-    .then((json) => {
-      setPhotos(json);
-      setLoading(false);
-    })
+    // fetch('https://gallery-app-server.vercel.app/photos')
+    // .then((res) => res.json())
+    // .then((json) => {
+    //   setPhotos(json);
+    //   setLoading(false);
+    // })
 
-    .catch((error) => {
-      setError(error);
-      setLoading(false);
-    })
+    // .catch((error) => {
+    //   setError(error);
+    //   setLoading(false);
+    // })
   }, [id]);
 
   if (error) return <div>Error!</div>;
