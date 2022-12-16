@@ -6,48 +6,43 @@ const EditPhoto = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [captions, setCaptions] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
 
   const editPhoto = (e) => {
     e.preventDefault();
-    // fetch("https://gallery-app-server.vercel.app/photos"+id,
-    // {method: "PATCH"})
-    // .then((response) => response.json())
-    // .then((json) => {
-    //   setPhotos(photos.filter((photo) => photo.id != id))
-    // })
-  };
+    fetch("https://gallery-app-server.vercel.app/photos/${id}", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        imageUrl: imageUrl,
+        captions:  captions,
+        updatedAt: new Date(),
+      })
+    
+.then((json) => {
+        if (json.error == undefined) {
+          navigate("/photos");
+        } else {
+          alert(json?.error);
+        }
+      })
+  })};
 
   useEffect(() => {
     setLoading(true);
-    // async function fetchData(){
-    //   try {
-    //     const data = await (
-    //       await fetch (`https://gallery-app-server.vercel.app/photos?_sort=id&_order=${sort}&q=${search}`)
-    //     ).json();
-    //     setPhotos(data);
-    //   } catch (error) {
-    //     setError(true);
-    //   }
-    // } fetchData();
-    //   setLoading(false);
-  }, [sort, submited]);
-
-  useEffect(() => {
-    setLoading(true);
-    // fetch('https://gallery-app-server.vercel.app/photos')
-    // .then((res) => res.json())
-    // .then((json) => {
-    //   setPhotos(json);
-    //   setLoading(false);
-    // })
-
-    // .catch((error) => {
-    //   setError(error);
-    //   setLoading(false);
-    // })
+    let url="https://gallery-app-server.vercel.app/photos/" +id;
+    fetch(url)
+    .then((result) => result.json())
+    .then((data) => {
+      setCaptions(data.captions)
+      setImageUrl(data.imageUrl)
+      setLoading(false)
+    })
+    
   }, [id]);
 
   if (error) return <div>Error!</div>;
